@@ -387,18 +387,6 @@ func (f *FSM) Event(ctx context.Context, event string, args ...interface{}) erro
 		return InternalError{}
 	}
 
-        // Moved this if block from line 335 to here
-        if f.current == dst {
-                // f.afterEventCallbacks needn't be called when the if block is moved here,
-                // because it is called in transitionFunc
-                //f.stateMu.RUnlock()
-                //defer f.stateMu.RLock()
-                //f.eventMu.Unlock()
-                //unlocked = true
-                //f.afterEventCallbacks(ctx, e)
-                return NoTransitionError{e.Err}
-        }
-
 	return e.Err
 }
 
