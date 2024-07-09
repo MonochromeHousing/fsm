@@ -332,15 +332,6 @@ func (f *FSM) Event(ctx context.Context, event string, args ...interface{}) erro
 		return err
 	}
 
-	if f.current == dst {
-		f.stateMu.RUnlock()
-		defer f.stateMu.RLock()
-		f.eventMu.Unlock()
-		unlocked = true
-		f.afterEventCallbacks(ctx, e)
-		return NoTransitionError{e.Err}
-	}
-
 	// Setup the transition, call it later.
 	transitionFunc := func(ctx context.Context, async bool) func() {
 		return func() {
